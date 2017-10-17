@@ -1,0 +1,14 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.1.51"
+}
+
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    implementation 'com.android.tools.build:gradle:3.0.0-rc1'
+    implementation 'junit:junit:4.12'
+}
