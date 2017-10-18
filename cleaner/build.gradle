@@ -8,7 +8,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
     implementation 'com.android.tools.build:gradle:3.0.0-rc1'
     implementation 'junit:junit:4.12'
+    runtimeClasspath 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
+    runtimeClasspath files(compileTestKotlin.destinationDir)
+    runtimeClasspath files(compileKotlin.destinationDir)
 }
