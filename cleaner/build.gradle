@@ -1,5 +1,6 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.1.51"
+    id "application"
 }
 
 repositories {
@@ -10,8 +11,14 @@ repositories {
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
     implementation 'com.android.tools.build:gradle:3.0.0-rc1'
-    implementation 'junit:junit:4.12'
-    runtimeClasspath 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
-    runtimeClasspath files(compileTestKotlin.destinationDir)
-    runtimeClasspath files(compileKotlin.destinationDir)
+    implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.willowtreeapps.assertk:assertk:0.9'
+    testImplementation 'net.jodah:concurrentunit:0.4.3'
+    testImplementation 'org.mockito:mockito-core:2.11.0'
+    testImplementation('com.nhaarman:mockito-kotlin-kt1.1:1.5.0') {
+        exclude module: 'mockito-core'
+    }
 }
+
+mainClassName = 'pl.droidsonroids.stf.devicecleaner.CleanerApplication'
