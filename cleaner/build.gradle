@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jre8'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
     implementation 'com.android.tools.build:gradle:3.0.0-rc1'
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
     testImplementation 'junit:junit:4.12'
