@@ -7,6 +7,7 @@ com.facebook.orca
 com.ghisler.android.TotalCommander
 com.google.android.apps.plus
 com.google.android.instantapps.supervisor
+com.google.android.youtube
 com.instagram.android
 com.koushikdutta.vysor
 com.lexa.fakegps
