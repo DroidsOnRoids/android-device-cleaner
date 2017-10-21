@@ -1,18 +1,17 @@
 package pl.droidsonroids.stf.devicecleaner
 
 import assertk.assert
-import assertk.assertions.contains
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualTo
+import assertk.assertions.*
 import com.android.ddmlib.IDevice
 import com.android.ddmlib.IShellOutputReceiver
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
+import java.io.IOException
 
 class DeviceExtensionsTest {
 
     @Test
-    fun `device cleaned up`() {
+    fun `desired actions performed on clean run`() {
         val device = mock<IDevice> {
             on { executeShellCommand(eq("pm list packages -3"), any()) } doAnswer {
                 val receiver = it.arguments[1] as NonCancellableMultilineReceiver
@@ -24,7 +23,7 @@ class DeviceExtensionsTest {
         val packageCaptor = argumentCaptor<String>()
         val receiverCaptor = argumentCaptor<IShellOutputReceiver>()
 
-        device.clean()
+        assert(device.clean()).isTrue()
 
         verify(device, times(2)).uninstallPackage(packageCaptor.capture())
 
@@ -37,5 +36,14 @@ class DeviceExtensionsTest {
             contains("rm -rf /data/local/tmp/*")
             contains("rm -rf /sdcard/*")
         }
+    }
+
+    @Test
+    fun `returns false on clean failure`() {
+        val device = mock<IDevice> {
+            on { reboot(anyOrNull()) } doThrow IOException::class
+        }
+
+        assert(device.clean()).isFalse()
     }
 }

@@ -8,11 +8,12 @@ class DeviceCleaner(connectedDeviceSerials: List<String>) : AndroidDebugBridge.I
     private val lock = Object()
     private val cleanTimeout = TimeUnit.MINUTES.toMillis(30)
     private val serialsToBeCleaned = connectedDeviceSerials.toMutableSet()
+    private var allDevicesCleanedSuccessfully = true
 
     override fun deviceChanged(device: IDevice, changeMask: Int) = Unit
 
     override fun deviceConnected(device: IDevice) {
-        device.clean()
+        allDevicesCleanedSuccessfully = allDevicesCleanedSuccessfully and device.clean()
         removeDevice(device)
     }
 
@@ -25,8 +26,10 @@ class DeviceCleaner(connectedDeviceSerials: List<String>) : AndroidDebugBridge.I
         }
     }
 
-    fun waitUntilAllDevicesCleaned() =
-            synchronized(lock) {
-                while (serialsToBeCleaned.isNotEmpty()) lock.wait(cleanTimeout)
-            }
+    fun waitUntilAllDevicesCleaned(): Boolean {
+        synchronized(lock) {
+            while (serialsToBeCleaned.isNotEmpty()) lock.wait(cleanTimeout)
+        }
+        return allDevicesCleanedSuccessfully
+    }
 }
