@@ -5,15 +5,17 @@ import com.android.ddmlib.NullOutputReceiver
 
 private val excludedPackages = rawExcludedPackages.split("\\s+".toRegex())
 
-fun IDevice.clean() {
+fun IDevice.clean(): Boolean {
     println("Cleaning device: $name")
     try {
         removeUnneededFiles()
         reboot(null)
         println("Device: $name cleaned")
+        return true
     } catch (e: Exception) {
         println("Failed to clean device: $name, error: ${e.message}")
     }
+    return false
 }
 
 fun IDevice.removeUnneededFiles() {

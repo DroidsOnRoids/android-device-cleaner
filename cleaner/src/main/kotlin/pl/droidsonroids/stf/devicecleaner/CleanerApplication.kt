@@ -16,7 +16,10 @@ fun main(args: Array<String>) {
 
     val deviceCleaner = DeviceCleaner(serialList)
     AndroidDebugBridge.addDeviceChangeListener(deviceCleaner)
-    deviceCleaner.waitUntilAllDevicesCleaned()
+    val allDevicesCleaned = deviceCleaner.waitUntilAllDevicesCleaned()
 
     AndroidDebugBridge.terminate()
+    if (!allDevicesCleaned) {
+        System.exit(1)
+    }
 }
