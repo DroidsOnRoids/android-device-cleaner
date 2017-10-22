@@ -1,18 +1,11 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.1.51"
     id "org.sonarqube" version "2.5"
-    id "application"
-}
-
-repositories {
-    google()
-    jcenter()
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.1.51'
     implementation 'com.android.tools.build:gradle:3.0.0-rc1'
-    implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.willowtreeapps.assertk:assertk:0.9'
     testImplementation 'net.jodah:concurrentunit:0.4.3'
@@ -21,5 +14,3 @@ dependencies {
         exclude module: 'mockito-core'
     }
 }
-
-mainClassName = 'pl.droidsonroids.stf.devicecleaner.CleanerApplication'
