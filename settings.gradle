@@ -1,1 +1,1 @@
-include ':cleaner'
+include ':device-cleaner', ':stf-app'

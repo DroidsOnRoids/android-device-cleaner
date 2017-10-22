@@ -30,3 +30,6 @@ fun IDevice.removeUnneededFiles() {
     executeShellCommand("rm -rf /data/local/tmp/*", NullOutputReceiver.getReceiver())
     executeShellCommand("rm -rf /sdcard/*", NullOutputReceiver.getReceiver())
 }
+
+val IDevice.serialProperty: String
+    get() = getProperty("ro.serialno")
