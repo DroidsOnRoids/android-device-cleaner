@@ -32,4 +32,4 @@ fun IDevice.removeUnneededFiles() {
 }
 
 val IDevice.serialProperty: String
-    get() = getProperty("ro.serialno")
+    get() = getProperty("ro.serialno") ?: "<UNKNOWN>"

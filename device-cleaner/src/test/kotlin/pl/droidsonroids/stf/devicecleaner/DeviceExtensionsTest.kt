@@ -46,4 +46,13 @@ class DeviceExtensionsTest {
 
         assert(device.clean()).isFalse()
     }
+
+    @Test
+    fun `falls back to default serial number if property missing`() {
+        val device = mock<IDevice> {
+            on { getProperty("ro.serialno") } doReturn null as String?
+        }
+
+        assert(device.serialProperty).isNotNull()
+    }
 }
