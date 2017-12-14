@@ -15,4 +15,5 @@ com.twitter.android
 de.codenauts.hockeyapp
 jp.co.cyberagent.stf
 pl.droidsonroids.devico
+com.voico.rcs
 """
