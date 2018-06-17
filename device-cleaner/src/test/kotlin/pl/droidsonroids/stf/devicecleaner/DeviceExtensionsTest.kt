@@ -1,5 +1,6 @@
 package pl.droidsonroids.stf.devicecleaner
 
+import assertk.all
 import assertk.assert
 import assertk.assertions.*
 import com.android.ddmlib.IDevice
@@ -23,7 +24,7 @@ class DeviceExtensionsTest {
         val packageCaptor = argumentCaptor<String>()
         val receiverCaptor = argumentCaptor<IShellOutputReceiver>()
 
-        assert(device.clean()).isTrue()
+        assert(device.clean(emptyArray())).isTrue()
 
         verify(device, times(2)).uninstallPackage(packageCaptor.capture())
 
@@ -32,7 +33,7 @@ class DeviceExtensionsTest {
         assert(packageCaptor.secondValue).isEqualTo("foo.baz")
 
         verify(device, times(3)).executeShellCommand(commandCaptor.capture(), receiverCaptor.capture())
-        assert(commandCaptor.allValues) {
+        assert(commandCaptor.allValues).all {
             contains("rm -rf /data/local/tmp/*")
             contains("rm -rf /sdcard/*")
         }
@@ -44,7 +45,7 @@ class DeviceExtensionsTest {
             on { reboot(anyOrNull()) } doThrow IOException::class
         }
 
-        assert(device.clean()).isFalse()
+        assert(device.clean(emptyArray())).isFalse()
     }
 
     @Test

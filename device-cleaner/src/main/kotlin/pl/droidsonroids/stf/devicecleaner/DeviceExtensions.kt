@@ -3,12 +3,10 @@ package pl.droidsonroids.stf.devicecleaner
 import com.android.ddmlib.IDevice
 import com.android.ddmlib.NullOutputReceiver
 
-private val excludedPackages = rawExcludedPackages.split("\\s+".toRegex())
-
-fun IDevice.clean(): Boolean {
+fun IDevice.clean(excludedPackages: Array<String>): Boolean {
     println("Cleaning device $name")
     try {
-        removeUnneededFiles()
+        removeUnneededFiles(excludedPackages)
         reboot(null)
         println("Device $name cleaned")
         return true
@@ -18,7 +16,7 @@ fun IDevice.clean(): Boolean {
     return false
 }
 
-fun IDevice.removeUnneededFiles() {
+fun IDevice.removeUnneededFiles(excludedPackages: Array<String>) {
     executeShellCommand("pm list packages -3", NonCancellableMultilineReceiver { packageLines ->
         packageLines.map { it.removePrefix("package:") }
                 .filter { it.isNotBlank() && it !in excludedPackages }
