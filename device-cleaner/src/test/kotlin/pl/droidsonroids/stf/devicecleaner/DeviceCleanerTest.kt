@@ -19,7 +19,7 @@ class DeviceCleanerTest {
         device = mock {
             on { getProperty("ro.serialno") } doReturn serial
         }
-        cleaner = DeviceCleaner(arrayOf(serial))
+        cleaner = DeviceCleaner(arrayOf(serial), emptyArray())
     }
 
     @Test
@@ -68,7 +68,7 @@ class DeviceCleanerTest {
             on { executeShellCommand(any(), any()) } doThrow IOException::class
             on { getProperty("ro.serialno") } doReturn secondSerial
         }
-        cleaner = DeviceCleaner(arrayOf(serial, secondSerial))
+        cleaner = DeviceCleaner(arrayOf(serial, secondSerial), emptyArray())
         val waiter = Waiter()
         Thread {
             waiter.assertFalse(cleaner.waitUntilAllDevicesCleaned())
@@ -81,7 +81,7 @@ class DeviceCleanerTest {
 
     @Test
     fun `reports success when no devices connected`() {
-        cleaner = DeviceCleaner(emptyArray())
+        cleaner = DeviceCleaner(emptyArray(), emptyArray())
         val waiter = Waiter()
         Thread {
             waiter.assertTrue(cleaner.waitUntilAllDevicesCleaned())

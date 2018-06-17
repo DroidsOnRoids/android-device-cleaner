@@ -4,7 +4,10 @@ import com.android.ddmlib.AndroidDebugBridge
 import com.android.ddmlib.IDevice
 import java.util.concurrent.TimeUnit
 
-class DeviceCleaner(connectedDeviceSerials: Array<String>) : AndroidDebugBridge.IDeviceChangeListener {
+class DeviceCleaner(
+    connectedDeviceSerials: Array<String>,
+    private val excludedPackages: Array<String>
+) : AndroidDebugBridge.IDeviceChangeListener {
     private val lock = Object()
     private val cleanTimeout = TimeUnit.MINUTES.toMillis(30)
     private val serialsToBeCleaned = connectedDeviceSerials.toMutableSet()
@@ -14,7 +17,7 @@ class DeviceCleaner(connectedDeviceSerials: Array<String>) : AndroidDebugBridge.
 
     override fun deviceConnected(device: IDevice) {
         if (device.serialProperty in serialsToBeCleaned) {
-            allDevicesCleanedSuccessfully = allDevicesCleanedSuccessfully and device.clean()
+            allDevicesCleanedSuccessfully = allDevicesCleanedSuccessfully and device.clean(excludedPackages)
             removeDevice(device)
         }
     }

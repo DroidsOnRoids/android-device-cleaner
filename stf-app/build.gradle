@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.google.code.gson:gson:2.8.2'
+        classpath 'com.google.code.gson:gson:2.8.5'
     }
 }
 
