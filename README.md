@@ -1,4 +1,7 @@
 # android-device-cleaner
+
+<img src="Logotype primary.png" width="60%" height="60%" />
+
 Tool for cleaning up Android devices.
 Designed for restoring state of devices used for QA on [STF](https://openstf.io/).
 By default STF uninstalls apps installed during session only on clean end of usage. 
