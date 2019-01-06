@@ -1,13 +1,12 @@
 package pl.droidsonroids.stf.devicecleaner
 
-import assertk.all
-import assertk.assert
-import assertk.assertions.*
 import com.android.ddmlib.IDevice
 import com.android.ddmlib.IShellOutputReceiver
-import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
 import java.io.IOException
+import assertk.assert
+import assertk.assertions.*
+import com.nhaarman.mockitokotlin2.*
 
 class DeviceExtensionsTest {
 
@@ -33,10 +32,8 @@ class DeviceExtensionsTest {
         assert(packageCaptor.secondValue).isEqualTo("foo.baz")
 
         verify(device, times(3)).executeShellCommand(commandCaptor.capture(), receiverCaptor.capture())
-        assert(commandCaptor.allValues).all {
-            contains("rm -rf /data/local/tmp/*")
-            contains("rm -rf /sdcard/*")
-        }
+        assert(commandCaptor.allValues).contains("rm -rf /data/local/tmp/*")
+        assert(commandCaptor.allValues).contains("rm -rf /sdcard/*")
     }
 
     @Test
