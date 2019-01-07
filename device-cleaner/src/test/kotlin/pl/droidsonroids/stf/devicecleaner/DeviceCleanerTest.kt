@@ -1,7 +1,7 @@
 package pl.droidsonroids.stf.devicecleaner
 
 import com.android.ddmlib.IDevice
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import net.jodah.concurrentunit.Waiter
 import org.junit.Before
 import org.junit.Test
