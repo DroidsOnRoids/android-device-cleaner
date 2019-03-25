@@ -1,6 +1,6 @@
 package pl.droidsonroids.stf.devicecleaner
 
-import assertk.assert
+import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.isNotNull
 import assertk.catch
@@ -28,7 +28,7 @@ class ExcludeUtilsKtTest {
     fun `should parse file containing package id`() {
         file.writeText(FOO_PACKAGE_ID)
         val excludedPackages = parseExcludesFile(file.path)
-        assert(excludedPackages).containsExactly(FOO_PACKAGE_ID)
+        assertThat(excludedPackages).containsExactly(FOO_PACKAGE_ID)
     }
 
     @Test
@@ -40,19 +40,19 @@ class ExcludeUtilsKtTest {
         """.trimIndent()
         )
         val excludedPackages = parseExcludesFile(file.path)
-        assert(excludedPackages).containsExactly(FOO_PACKAGE_ID)
+        assertThat(excludedPackages).containsExactly(FOO_PACKAGE_ID)
     }
 
     @Test
     fun `should trim package id tail`() {
         file.writeText("$FOO_PACKAGE_ID ")
         val excludedPackages = parseExcludesFile(file.path)
-        assert(excludedPackages).containsExactly(FOO_PACKAGE_ID)
+        assertThat(excludedPackages).containsExactly(FOO_PACKAGE_ID)
     }
 
     @Test
     fun `should throw exception on unreadable file`() {
         val exception = catch { parseExcludesFile(temporaryFolder.root.path) }
-        assert(exception).isNotNull()
+        assertThat(exception).isNotNull()
     }
 }
