@@ -1,12 +1,12 @@
 package pl.droidsonroids.stf.devicecleaner
 
+import assertk.assertThat
+import assertk.assertions.*
 import com.android.ddmlib.IDevice
 import com.android.ddmlib.IShellOutputReceiver
+import com.nhaarman.mockitokotlin2.*
 import org.junit.Test
 import java.io.IOException
-import assertk.assert
-import assertk.assertions.*
-import com.nhaarman.mockitokotlin2.*
 
 class DeviceExtensionsTest {
 
@@ -23,17 +23,17 @@ class DeviceExtensionsTest {
         val packageCaptor = argumentCaptor<String>()
         val receiverCaptor = argumentCaptor<IShellOutputReceiver>()
 
-        assert(device.clean(emptyArray())).isTrue()
+        assertThat(device.clean(emptyArray())).isTrue()
 
         verify(device, times(2)).uninstallPackage(packageCaptor.capture())
 
-        assert(packageCaptor.allValues).hasSize(2)
-        assert(packageCaptor.firstValue).isEqualTo("foo.bar")
-        assert(packageCaptor.secondValue).isEqualTo("foo.baz")
+        assertThat(packageCaptor.allValues).hasSize(2)
+        assertThat(packageCaptor.firstValue).isEqualTo("foo.bar")
+        assertThat(packageCaptor.secondValue).isEqualTo("foo.baz")
 
         verify(device, times(3)).executeShellCommand(commandCaptor.capture(), receiverCaptor.capture())
-        assert(commandCaptor.allValues).contains("rm -rf /data/local/tmp/*")
-        assert(commandCaptor.allValues).contains("rm -rf /sdcard/*")
+        assertThat(commandCaptor.allValues).contains("rm -rf /data/local/tmp/*")
+        assertThat(commandCaptor.allValues).contains("rm -rf /sdcard/*")
     }
 
     @Test
@@ -42,7 +42,7 @@ class DeviceExtensionsTest {
             on { reboot(anyOrNull()) } doThrow IOException::class
         }
 
-        assert(device.clean(emptyArray())).isFalse()
+        assertThat(device.clean(emptyArray())).isFalse()
     }
 
     @Test
@@ -51,6 +51,6 @@ class DeviceExtensionsTest {
             on { getProperty("ro.serialno") } doReturn null as String?
         }
 
-        assert(device.serialProperty).isNotNull()
+        assertThat(device.serialProperty).isNotNull()
     }
 }
