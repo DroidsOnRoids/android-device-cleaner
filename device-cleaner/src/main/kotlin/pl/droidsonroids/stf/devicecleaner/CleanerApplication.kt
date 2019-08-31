@@ -3,10 +3,10 @@
 package pl.droidsonroids.stf.devicecleaner
 
 import com.android.ddmlib.AndroidDebugBridge
-import java.util.*
+import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
-    println("Device serials: ${Arrays.toString(args)}")
+    println("Device serials: ${args.contentToString()}")
     val androidHome = System.getenv("ANDROID_HOME") ?: throw IllegalStateException("ANDROID_HOME environment variable is not set")
     val excludedListFilePath =
         System.getenv("EXCLUDED_PACKAGES_LIST_PATH") ?: throw IllegalStateException("EXCLUDED_PACKAGES_LIST_PATH environment variable is not set")
@@ -22,6 +22,6 @@ fun main(args: Array<String>) {
 
     AndroidDebugBridge.terminate()
     if (!allDevicesCleaned) {
-        System.exit(1)
+        exitProcess(1)
     }
 }
