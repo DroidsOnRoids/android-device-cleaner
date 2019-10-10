@@ -1,6 +1,6 @@
 # android-device-cleaner
 
-<img src="Logotype primary.png" width="60%" height="60%" />
+<img src="logo.png" width="60%" height="60%" />
 
 Tool for cleaning up Android devices.
 Designed for restoring state of devices used for QA on [STF](https://openstf.io/).
