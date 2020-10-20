@@ -2,10 +2,7 @@ package pl.droidsonroids.stf.devicecleaner
 
 import com.android.ddmlib.AndroidDebugBridge
 import com.android.ddmlib.IDevice
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -17,7 +14,8 @@ class DeviceCleaner(
     private val cleanTimeout = TimeUnit.MINUTES.toMillis(30)
     private val serialsToBeCleaned = connectedDeviceSerials.toMutableSet()
     private val allDevicesCleanedSuccessfully = AtomicBoolean(true)
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.IO + job)
 
     override fun deviceChanged(device: IDevice, changeMask: Int) = Unit
 
@@ -44,6 +42,9 @@ class DeviceCleaner(
     fun waitUntilAllDevicesCleaned(): Boolean {
         synchronized(lock) {
             while (serialsToBeCleaned.isNotEmpty()) lock.wait(cleanTimeout)
+        }
+        runBlocking {
+            job.join()
         }
         scope.cancel()
         return allDevicesCleanedSuccessfully.get()
