@@ -23,9 +23,10 @@ class DeviceCleanerTest {
     }
 
     @Test
-    fun `device cleaned when connected`() {
+    fun `storage cleaned when connected`() {
         cleaner.deviceConnected(device)
-        verify(device).reboot(null)
+        verify(device).executeShellCommand(eq("rm -rf /sdcard/*"), any())
+        verify(device).executeShellCommand(eq("rm -rf /data/local/tmp/*"), any())
     }
 
     @Test

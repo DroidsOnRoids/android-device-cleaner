@@ -7,7 +7,7 @@ fun IDevice.clean(excludedPackages: Array<String>): Boolean {
     println("Cleaning device $name")
     try {
         removeUnneededFiles(excludedPackages)
-        reboot(null)
+        forceStopPackages()
         println("Device $name cleaned")
         return true
     } catch (e: Exception) {
@@ -27,6 +27,16 @@ fun IDevice.removeUnneededFiles(excludedPackages: Array<String>) {
     })
     executeShellCommand("rm -rf /data/local/tmp/*", NullOutputReceiver.getReceiver())
     executeShellCommand("rm -rf /sdcard/*", NullOutputReceiver.getReceiver())
+}
+
+fun IDevice.forceStopPackages() {
+    executeShellCommand("pm list packages", NonCancellableMultilineReceiver { packageLines ->
+        packageLines.map { it.removePrefix("package:") }
+                .forEach {
+                    println("Stopping package $it")
+                    forceStop(it)
+                }
+    })
 }
 
 val IDevice.serialProperty: String

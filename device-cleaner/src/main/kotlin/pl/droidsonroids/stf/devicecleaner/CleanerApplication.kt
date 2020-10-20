@@ -3,6 +3,7 @@
 package pl.droidsonroids.stf.devicecleaner
 
 import com.android.ddmlib.AndroidDebugBridge
+import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -16,7 +17,7 @@ fun main(args: Array<String>) {
     AndroidDebugBridge.addDeviceChangeListener(deviceCleaner)
 
     AndroidDebugBridge.init(true)
-    AndroidDebugBridge.createBridge("$androidHome/platform-tools/adb", true)
+    AndroidDebugBridge.createBridge("$androidHome/platform-tools/adb", true, 30, SECONDS)
 
     val allDevicesCleaned = deviceCleaner.waitUntilAllDevicesCleaned()
 
