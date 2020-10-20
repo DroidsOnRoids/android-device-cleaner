@@ -2,7 +2,12 @@ package pl.droidsonroids.stf.devicecleaner
 
 import com.android.ddmlib.AndroidDebugBridge
 import com.android.ddmlib.IDevice
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 
 class DeviceCleaner(
     connectedDeviceSerials: Array<String>,
@@ -11,13 +16,18 @@ class DeviceCleaner(
     private val lock = Object()
     private val cleanTimeout = TimeUnit.MINUTES.toMillis(30)
     private val serialsToBeCleaned = connectedDeviceSerials.toMutableSet()
-    private var allDevicesCleanedSuccessfully = true
+    private val allDevicesCleanedSuccessfully = AtomicBoolean(true)
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     override fun deviceChanged(device: IDevice, changeMask: Int) = Unit
 
     override fun deviceConnected(device: IDevice) {
         if (device.serialProperty in serialsToBeCleaned) {
-            allDevicesCleanedSuccessfully = allDevicesCleanedSuccessfully and device.clean(excludedPackages)
+            scope.launch {
+                if (!device.clean(excludedPackages)) {
+                    allDevicesCleanedSuccessfully.set(false)
+                }
+            }
             removeDevice(device)
         }
     }
@@ -35,6 +45,7 @@ class DeviceCleaner(
         synchronized(lock) {
             while (serialsToBeCleaned.isNotEmpty()) lock.wait(cleanTimeout)
         }
-        return allDevicesCleanedSuccessfully
+        scope.cancel()
+        return allDevicesCleanedSuccessfully.get()
     }
 }

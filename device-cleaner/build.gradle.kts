@@ -9,6 +9,7 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0-M1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10")
     implementation("com.android.tools.build:gradle:4.2.0-alpha13")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.10")
