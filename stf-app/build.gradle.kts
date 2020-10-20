@@ -23,5 +23,5 @@ application {
 
 tasks.named("run", JavaExec::class) {
     val stfDeviceSerialList = System.getenv("STF_DEVICE_SERIAL_LIST") ?: "[]"
-    args(Gson().fromJson(stfDeviceSerialList, Array<String>::class.java))
+    args(Gson().fromJson(stfDeviceSerialList, List::class.java))
 }
