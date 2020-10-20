@@ -31,7 +31,7 @@ class DeviceExtensionsTest {
         assertThat(packageCaptor.firstValue).isEqualTo("foo.bar")
         assertThat(packageCaptor.secondValue).isEqualTo("foo.baz")
 
-        verify(device, times(3)).executeShellCommand(commandCaptor.capture(), receiverCaptor.capture())
+        verify(device, times(4)).executeShellCommand(commandCaptor.capture(), receiverCaptor.capture())
         assertThat(commandCaptor.allValues).contains("rm -rf /data/local/tmp/*")
         assertThat(commandCaptor.allValues).contains("rm -rf /sdcard/*")
     }
@@ -39,7 +39,7 @@ class DeviceExtensionsTest {
     @Test
     fun `returns false on clean failure`() {
         val device = mock<IDevice> {
-            on { reboot(anyOrNull()) } doThrow IOException::class
+            on { executeShellCommand(any(), any()) } doThrow IOException::class
         }
 
         assertThat(device.clean(emptyArray())).isFalse()
