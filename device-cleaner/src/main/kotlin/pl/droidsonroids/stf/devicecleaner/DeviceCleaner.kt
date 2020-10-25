@@ -32,7 +32,7 @@ class DeviceCleaner(
     }
 
     suspend fun cleanAllDevices(): Boolean {
-        val allDevicesCleanedSuccessfully = AtomicBoolean(serialsToBeCleaned.isEmpty())
+        val allDevicesCleanedSuccessfully = AtomicBoolean(true)
         while (serialsToBeCleaned.isNotEmpty()) {
             val device = deviceChannel.receive()
             withContext(Dispatchers.IO) {
