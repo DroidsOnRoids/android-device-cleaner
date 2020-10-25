@@ -6,7 +6,7 @@ import com.android.ddmlib.AndroidDebugBridge
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.system.exitProcess
 
-fun main(args: Array<String>) {
+suspend fun main(args: Array<String>) {
     println("Device serials: ${args.contentToString()}")
     val androidHome = System.getenv("ANDROID_HOME") ?: throw IllegalStateException("ANDROID_HOME environment variable is not set")
     val excludedListFilePath =
@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
     AndroidDebugBridge.init(true)
     AndroidDebugBridge.createBridge("$androidHome/platform-tools/adb", true, 30, SECONDS)
 
-    val allDevicesCleaned = deviceCleaner.waitUntilAllDevicesCleaned()
+    val allDevicesCleaned = deviceCleaner.cleanAllDevices()
 
     AndroidDebugBridge.terminate()
     if (!allDevicesCleaned) {
