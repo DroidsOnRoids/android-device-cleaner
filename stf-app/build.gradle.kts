@@ -1,13 +1,5 @@
-import com.google.gson.Gson
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath("com.google.code.gson:gson:2.8.6")
-    }
-}
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 plugins {
     application
@@ -23,5 +15,5 @@ application {
 
 tasks.named("run", JavaExec::class) {
     val stfDeviceSerialList = System.getenv("STF_DEVICE_SERIAL_LIST") ?: "[]"
-    args(Gson().fromJson(stfDeviceSerialList, List::class.java))
+    args(Json.decodeFromString<List<String>>(stfDeviceSerialList))
 }

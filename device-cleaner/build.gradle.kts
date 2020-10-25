@@ -9,9 +9,9 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10")
-    implementation("com.android.tools.build:gradle:4.2.0-alpha13")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.10")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("com.android.tools.build:gradle:4.2.0-alpha14")
+    implementation(kotlin("reflect"))
 
     testImplementation("junit:junit:4.13.1")
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.23")
