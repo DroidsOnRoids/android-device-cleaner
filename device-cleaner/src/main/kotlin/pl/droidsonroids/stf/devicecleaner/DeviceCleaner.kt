@@ -21,7 +21,7 @@ class DeviceCleaner(
 
     override fun deviceConnected(device: IDevice) {
         if (device.serialProperty in serialsToBeCleaned) {
-            deviceChannel.offer(device)
+            deviceChannel.trySend(device)
         }
     }
 
