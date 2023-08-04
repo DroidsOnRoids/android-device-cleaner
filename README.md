@@ -1,6 +1,6 @@
 # android-device-cleaner
 
-<img src="logo.png" width="60%" height="60%" />
+<img src="logo.webp" width="60%" height="60%" />
 
 Tool for cleaning up Android devices.
 Designed for restoring state of devices used for QA on [Device Farmer](https://devicefarmer.io/).

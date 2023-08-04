@@ -3,8 +3,6 @@ package pl.droidsonroids.stf.devicecleaner
 import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.isFailure
-import assertk.assertions.isNotNull
-import assertk.catch
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,6 +51,6 @@ class ExcludeUtilsKtTest {
 
     @Test
     fun `should throw exception on unreadable file`() {
-        assertThat { parseExcludesFile(temporaryFolder.root.path) }.isFailure()
+        assertThat(runCatching<Array<String>> { parseExcludesFile(temporaryFolder.root.path) }).isFailure()
     }
 }

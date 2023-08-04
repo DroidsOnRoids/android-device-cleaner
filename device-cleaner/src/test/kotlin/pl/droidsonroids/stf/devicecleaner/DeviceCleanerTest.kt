@@ -3,11 +3,17 @@ package pl.droidsonroids.stf.devicecleaner
 import assertk.assertThat
 import assertk.assertions.isTrue
 import com.android.ddmlib.IDevice
-import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import java.io.IOException
 
 class DeviceCleanerTest {
